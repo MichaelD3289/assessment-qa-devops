@@ -20,8 +20,10 @@ rollbar.log('Hello world!')
 
 app.get('/api/robots', (req, res) => {
     try {
+        rollbar.info('All bots sent successfully')
         res.status(200).send(botsArr)
     } catch (error) {
+        rollbar.error('Error Getting Robots', error)
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
     }
@@ -65,6 +67,7 @@ app.post('/api/duel', (req, res) => {
             res.status(200).send('You won!')
         }
     } catch (error) {
+        rollbar.critical('DUELING ERROR', error)
         console.log('ERROR DUELING', error)
         res.sendStatus(400)
     }
@@ -73,7 +76,9 @@ app.post('/api/duel', (req, res) => {
 app.get('/api/player', (req, res) => {
     try {
         res.status(200).send(playerRecord)
+        rollbar.log('player record successfully sent')
     } catch (error) {
+        rollbar.error("ERROR GETTING PLAYER STATS", error)
         console.log('ERROR GETTING PLAYER STATS', error)
         res.sendStatus(400)
     }
