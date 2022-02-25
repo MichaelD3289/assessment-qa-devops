@@ -1,16 +1,16 @@
 
-import { Builder, Capabilities, By } from "selenium-webdriver"
+import { Builder, Capabilities, By, until } from "selenium-webdriver"
 
-require('chromedriver')
+require('chromedriver');
 
-const driver = new Builder().withCapabilities(Capabilities.chrome()).build()
+const driver = new Builder().withCapabilities(Capabilities.chrome()).build();
 
 beforeEach(async () => {
-   await driver.get('http://localhost:3000/')
+  driver.get('http://localhost:3000/');
 })
 
 afterAll(async () => {
-   await driver.quit()
+  driver.quit();
 })
 
 test('Title shows up when page loads', async () => {
@@ -30,4 +30,16 @@ test('Clicking See all bots ', async () => {
    
 
     expect(allBotCards).toBe(9);
+})
+
+test('Clicking Draw displays 5 bot cards', async () => {
+    const drawBtn = await driver.findElement(By.id('draw'))
+    await drawBtn.click();
+    await driver.sleep(1000);
+    const botCards = await driver.findElements(By.className('bot-card'))
+
+    const numberOfBots = botCards.length;
+
+    expect(numberOfBots).toEqual(5);
+
 })
